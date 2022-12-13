@@ -161,7 +161,11 @@ async function patentSearcher(codeArray,needExtra){
 }
 async function loadPage(url){
 	try{
-	const a= await axios.get(url);
+	const a= await axios.get(url,{
+    headers:{
+      cookie: "__utmc=211553730; __utmz=211553730.1670900785.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __gads=ID=a3426d1ee56f0c74-22c965423dd8008b:T=1670900785:RT=1670900785:S=ALNI_MacPb8uZEqC-5HaqsRf6GPw9pujGQ; __gpi=UID=00000911a253a552:T=1670900785:RT=1670900785:S=ALNI_MZ0OuQCb-wPnSm926SYdvCSQLcqPw; SESS8454a07f9=0Umx_7prGRTySRACqDOjxqg; __utma=211553730.849944579.1670900785.1670902985.1670906559.3; _cbpt=czoxNzoidjQ7NDswOzE2NzA5MDY5NjYiOw=="
+    }
+  });
 	return await cheerio.load(a.data);
 	}catch(error){
     console.log(error);
