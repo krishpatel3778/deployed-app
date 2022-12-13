@@ -41,7 +41,6 @@ router.get("/pdf",function(req,res){
 
     var parts=decodeURI(query).split("^^^");
     res.sendFile("/home/ec2-user/back-end/deployed-app/running.html");
-	  console.log("here");
     freePatents(parts[0],parts[1],parts[2]);
     //PEX/smith AND ABST/glass AND ISD/NOW-1YEAR->NOW
   }
@@ -63,6 +62,7 @@ async function freePatents(queryString,outputConfig,needExtra){
   var page=1;
   var allCodes=[];
   while(true){
+    console.log("here");
     var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
     var $=await loadPage(url);
     try{
