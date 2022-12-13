@@ -158,6 +158,7 @@ async function loadPage(url){
 	const a= await axios.get(url);
 	return await cheerio.load(a.data);
 	}catch(error){
+    console.log(error);
 		//currentResponse.send(url);
 		await sleep(30000);
 	}
