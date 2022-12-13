@@ -67,6 +67,7 @@ async function freePatents(queryString,outputConfig,needExtra){
     console.log(url);
     var $=await loadPage(url);
     try{
+      console.log("lochu oye se")
       currentString+="<br>"+$('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').text();
 	console.log(currentString);
       var array=$("tr>td:nth-child(3)>a")
