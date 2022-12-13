@@ -41,6 +41,7 @@ router.get("/pdf",function(req,res){
 
     var parts=decodeURI(query).split("^^^");
     res.sendFile("/home/ec2-user/back-end/deployed-app/running.html");
+	  console.log("here");
     freePatents(parts[0],parts[1],parts[2]);
     //PEX/smith AND ABST/glass AND ISD/NOW-1YEAR->NOW
   }
