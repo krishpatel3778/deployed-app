@@ -69,8 +69,7 @@ async function freePatents(queryString,outputConfig,needExtra){
   var allCodes=[];
   while(true){
     var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
-    console.log(url);
-    var $=await loadPage(url);
+    var $=loadPage(url);
     try{
       console.log("<br>"+$('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').text())
       currentString+="<br>"+$('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').text();
@@ -95,6 +94,7 @@ async function freePatents(queryString,outputConfig,needExtra){
       }
       page++;
     }catch(error){
+      break;
       page--;
     }
   }
