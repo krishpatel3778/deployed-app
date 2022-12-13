@@ -62,14 +62,12 @@ async function freePatents(queryString,outputConfig,needExtra){
   var page=1;
   var allCodes=[];
   while(true){
-    console.log("here");
     var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
     console.log(url);
     var $=await loadPage(url);
     try{
       console.log("lochu oye se")
       currentString+="<br>"+$('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').text();
-	console.log(currentString);
       var array=$("tr>td:nth-child(3)>a")
       for(var i=1;i<array.length-2;i++){
         try{
