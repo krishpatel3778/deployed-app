@@ -95,7 +95,6 @@ async function freePatents(queryString,outputConfig,needExtra){
       }
       page++;
     }catch(error){
-      console.log(error);
       page--;
     }
   }
@@ -170,7 +169,7 @@ async function loadPage(url){
     const http = require('http');
     const crawlbaseToken = 'JJLUQ3kLZDDuzPcaFtAW3w';
     const auth = `Basic ${Buffer.from(crawlbaseToken).toString('base64')}`;
-
+    var text=""
 // Example of HTTP request
     http
       .get(
@@ -186,8 +185,11 @@ async function loadPage(url){
         (res) => {
           const chunks = [];
           res.on('data', (chunk) => chunks.push(chunk));
-          res.on('end', () =>
-            console.log('DONE HTTP Request', Buffer.concat(chunks).toString('utf8'))
+          res.on('end', () =>{
+              console.log('DONE HTTP Request', Buffer.concat(chunks).toString('utf8'))
+              text=Buffer.concat(chunks).toString('utf8');
+              return text;
+            }
           );
         }
       )
