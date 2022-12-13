@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Running the Program</title>
+  </head>
+  <body>
+    <h1>Running the program</h1>
+    <p >Searching for all patent numbers on freepatentsonline</p>
+    <p id="refresh"></p>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+      var refresher=setInterval(async function () {
+        var gotString=await axios.get("http://rightclick.monster/status")
+        document.querySelector("#refresh").innerHTML=gotString.data;
+        if(gotString.data=="redirect"){
+          window.location.href="http://rightclick.monster/getpdf"
+        }
+    }, 10000);
+    </script>
+  </body>
+</html>
