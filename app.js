@@ -88,7 +88,8 @@ async function freePatents(queryString,outputConfig,needExtra){
         currentString+= "<br>"+"No results found";
       }
       page++;
-    }catch{
+    }catch(error){
+      console.log(error);
       page--;
     }
   }
