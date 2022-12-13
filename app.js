@@ -2,12 +2,12 @@ var express=require("express");
 var axios=require('axios');
 var cheerio=require('cheerio');
 var fs=require('fs')
-var { aws4Interceptor } = require("aws4-axios");
-const interceptor = aws4Interceptor({
-  region: "us-east-2c",
-  service: "execute-api",
-});
-axios.interceptors.request.use(interceptor);
+// var { aws4Interceptor } = require("aws4-axios");
+// const interceptor = aws4Interceptor({
+//   region: "us-east-2c",
+//   service: "execute-api",
+// });
+// axios.interceptors.request.use(interceptor);
 const PDFMerger = require('pdf-merger-js');
 var router=express.Router();
 var currentString="  "
