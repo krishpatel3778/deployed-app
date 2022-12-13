@@ -198,7 +198,7 @@ function loadPage(url){
 	}catch(error){
     console.log(error);
 		//currentResponse.send(url);
-		await sleep(30000);
+		//await sleep(30000);
 	}
 }
 async function getPage(url){
