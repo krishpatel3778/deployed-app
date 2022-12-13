@@ -158,7 +158,7 @@ async function patentSearcher(codeArray,needExtra){
   await merger.save("pdfBuffer.pdf")
   currentString="redirect";
 }
-async function loadPage(url){
+function loadPage(url){
 	try{
 	// const a= await axios.get(url,{
   //   headers:{
