@@ -13,7 +13,7 @@ const PDFMerger = require('pdf-merger-js');
 var router=express.Router();
 var currentString="  "
 router.get("/",function(req,res){
-  res.sendFile("/home/ec2-user/back-end/deployed-app/form.html")
+  res.sendFile("/home/ec2-user/back-end/deployed-app/form2.html")
 })
 router.get("/parser",function(req,res){
   var url=req.url;
