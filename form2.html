@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8">
     <title>Input</title>
+    <script src='https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js'></script>  
+    <script src='https://www.jsdelivr.com/package/npm/cheerio'></script>  
+      
   </head>
   <body>
     <h1>Custom Query Search</h1>
@@ -38,8 +42,9 @@
       <input type="radio" id="false" name="OA" value="false" requirednode>
       <label for="false">No</label><br><br>
 
-      <input type="submit" value="Submit">
+      <input id="done" type="submit" value="Submit">
      </fieldset>
+
     </form>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
@@ -52,6 +57,7 @@
         });
       }
       document.querySelector("#parser").addEventListener("submit",async function(event){
+        $("#done").prop("disabled",true);
         var url=$("#parser").serialize()
         var data=[];
         for(var i=0;i<url.length;i++){
@@ -108,16 +114,41 @@
             }
         }
         //patentSearcher(allCodes,needExtra)
-    } 
+    }
+    function sleep(ms) {
+        return new Promise((resolve) => {
+            setTimeout(resolve, ms);
+        })
+    }
     async function loadPage(url){
         try{
         const a= await axios.get(url);
         return await cheerio.load(a.data);
         }catch(error){
-            //currentResponse.send(url);
-            await sleep(30000);
+            console.log(error);
+            await sleep(15000);
         }
-    }  
+    }
+    async function mergeAllPDFs(urls) {
+    
+        const pdfDoc = await PDFLib.PDFDocument.create();
+        const numDocs = urls.length;
+        
+        for(var i = 0; i < numDocs; i++) {
+            const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
+            const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
+            const docLength = donorPdfDoc.getPageCount();
+            for(var k = 0; k < docLength; k++) {
+                const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
+                //console.log("Doc " + i+ ", page " + k);
+                pdfDoc.addPage(donorPage);
+            }
+        }
+
+        const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
+        console.log(pdfDataUri);
+        var data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
+    }
     </script>
   </body>
 </html>
