@@ -52,8 +52,27 @@
         });
       }
       document.querySelector("#parser").addEventListener("submit",function(event){
-        console.log($("#parser").serialize())
-      })
+        var url=$("#parser").serialize()
+        var data=[];
+        for(var i=0;i<url.length;i++){
+            if(url.substring(i,i+1)=="="){
+                var word=""
+                for(var x=i+1;x<url.length;x++){
+                    var toAdd=url.substring(x,x+1);;
+                    if(toAdd=="&"||x==url.length-1){
+                    if(x==url.length-1){
+                        data.push(word+toAdd)
+                    }else{
+                        data.push(word)
+                    }
+                    break;
+                    }
+                    word+=toAdd;
+                }
+            }
+        }
+        console.log(data);
+      });
     </script>
   </body>
 </html>
