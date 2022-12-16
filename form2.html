@@ -51,7 +51,9 @@
         });
       }
       document.querySelector("#parser").addEventListener("submit",function(event){
-        console.log(event);
+        var formEl = document.forms.parser;
+        var formData = new FormData(formEl);
+        console.log(formData);
       })
     </script>
   </body>
