@@ -51,7 +51,7 @@
           document.querySelector(`label[for="name"]`).innerText='Enter '+document.querySelector(`label[for="${value}"]`).textContent+":";
         });
       }
-      document.querySelector("#parser").addEventListener("submit",function(event){
+      document.querySelector("#parser").addEventListener("submit",async function(event){
         var url=$("#parser").serialize()
         var data=[];
         for(var i=0;i<url.length;i++){
@@ -72,7 +72,52 @@
             }
         }
         console.log(data);
+        await freePatents(`${data[0]}/"${data[1]}" AND ABST/${data[2]} AND ISD/${data[3]}->${data[4]}`,`${data[5].replace("%2C",",")}`,`${data[6]}`)
       });
+      async function freePatents(queryString,outputConfig,needExtra){
+        var page=1;
+        var allCodes=[];
+        while(true){
+            var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
+            console.log(url)
+            var $=await loadPage(url);
+            try{
+            console.log("<br>"+$('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').text());
+            var array=$("tr>td:nth-child(3)>a")
+            for(var i=1;i<array.length-2;i++){
+                try{
+                var $1=await loadPage("https://www.freepatentsonline.com"+$(array[i]).attr("href"))
+                var array1=$1(".disp_elm_title,.disp_elm_text");
+                for(var x=0;x<array1.length;x++){
+                    if($1(array1[x]).text()=="Application Number:"){
+                    allCodes.push($1(array1[x+1]).text());
+                    break;
+                    }
+                }
+                }catch{
+                }
+            }
+
+            if(array.length==0){
+                break;
+                console.log( "<br>"+"No results found");
+            }
+            page++;
+            }catch{
+                page--;
+            }
+        }
+        //patentSearcher(allCodes,needExtra)
+    } 
+    async function loadPage(url){
+        try{
+        const a= await axios.get(url);
+        return await cheerio.load(a.data);
+        }catch(error){
+            //currentResponse.send(url);
+            await sleep(30000);
+        }
+    }  
     </script>
   </body>
 </html>
