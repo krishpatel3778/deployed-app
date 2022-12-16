@@ -2,6 +2,7 @@ var express=require("express");
 var axios=require('axios');
 var cheerio=require('cheerio');
 var fs=require('fs')
+const randomUseragent = require('random-useragent');
 // var { aws4Interceptor } = require("aws4-axios");
 // const interceptor = aws4Interceptor({
 //   region: "us-east-2c",
@@ -160,45 +161,17 @@ async function patentSearcher(codeArray,needExtra){
 }
 function loadPage(url){
 	try{
-	// const a= await axios.get(url,{
-  //   headers:{
-  //     cookie: "__utmc=211553730; __utmz=211553730.1670900785.1.1.utmcsr=(direct)|utmccn=(direct)|utmcmd=(none); __gads=ID=a3426d1ee56f0c74-22c965423dd8008b:T=1670900785:RT=1670900785:S=ALNI_MacPb8uZEqC-5HaqsRf6GPw9pujGQ; __gpi=UID=00000911a253a552:T=1670900785:RT=1670900785:S=ALNI_MZ0OuQCb-wPnSm926SYdvCSQLcqPw; SESS8454a07f9=0Umx_7prGRTySRACqDOjxqg; __utma=211553730.849944579.1670900785.1670902985.1670906559.3; _cbpt=czoxNzoidjQ7NDswOzE2NzA5MDY5NjYiOw=="
-  //   }
-  // });
-	// return await cheerio.load(a.data);
-    const http = require('http');
-    const crawlbaseToken = 'JJLUQ3kLZDDuzPcaFtAW3w';
-    const auth = `Basic ${Buffer.from(crawlbaseToken).toString('base64')}`;
-    var text=""
-// Example of HTTP request
-    http
-      .get(
-        {
-          host: 'smartproxy.crawlbase.com',
-          port: 8012,
-          path: 'https://www.freepatentsonline.com/result.html?p=1&srch=xprtsrch&query_txt=PEX/%22Smith%22%20AND%20ABST/Glass%20AND%20ISD/2016-03-02-%3E2022-12-12%20&uspat=%20on&usapp=off%20&date_range=all&stemming=on&sort=relevance&search=Search',
-          headers: {
-            'Proxy-Authorization': auth,
-            // 'crawlbaseAPI-Parameters': 'javascript=true' // Send the javascript param if you need to do requests using headless browsers.
-          },
-        },
-        (res) => {
-          const chunks = [];
-          res.on('data', (chunk) => chunks.push(chunk));
-          res.on('end', () =>{
-              console.log('DONE HTTP Request', Buffer.concat(chunks).toString('utf8'))
-              text=Buffer.concat(chunks).toString('utf8');
-              return text;
-            }
-          );
-        }
-      )
-      .on('error', console.error)
-      .end();
+	 const a= await axios.get(url,{
+    headers:{
+      origin:"https://www.freepatentsonline.com/",
+      referer: "https://www.freepatentsonline.com/",
+      "user-agent": randomUseragent.getRandom(),
+    }
+  });
+	  return await cheerio.load(a.data);
 	}catch(error){
     console.log(error);
-		//currentResponse.send(url);
-		//await sleep(30000);
+		await sleep(30000);
 	}
 }
 async function getPage(url){
