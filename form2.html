@@ -121,7 +121,7 @@
     async function loadPage(url){
         try{
         const a= await axios.get(url);
-        return await new DomParser().parseFromString(a.data,"text/html");
+        return await new DOMParser().parseFromString(a.data,"text/html");
         }catch(error){
             console.log(error);
             await sleep(15000);
