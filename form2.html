@@ -47,6 +47,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
+      var statusString="";
       var input=document.querySelectorAll('input[name="search_criteria"]');
       for(var i=0;i<input.length;i++){
         input[i].addEventListener("input",function(event){
@@ -86,15 +87,15 @@
             console.log(url)
             var $1=await loadPage(url);
             try{
-            console.log("<br>"+$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
-            var array=$("tr>td:nth-child(3)>a")
+            console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
+            var array=$.querySelectorAll("tr>td:nth-child(3)>a")
             for(var i=1;i<array.length-2;i++){
                 try{
-                var $2=await loadPage("https://www.freepatentsonline.com"+$1(array[i]).attr("href"))
-                var array1=$2(".disp_elm_title,.disp_elm_text");
+                var $2=await loadPage("https://www.freepatentsonline.com"+$1.querySelector(array[i]).getAttribute("href"))
+                var array1=$2.querySelectorAll(".disp_elm_title,.disp_elm_text");
                 for(var x=0;x<array1.length;x++){
-                    if($2(array1[x]).text()=="Application Number:"){
-                    allCodes.push($2(array1[x+1]).text());
+                    if($2.querySelector(array1[x]).innertext=="Application Number:"){
+                    allCodes.push($2.querySelector(array1[x+1]).innerText);
                     break;
                     }
                 }
@@ -104,13 +105,14 @@
 
             if(array.length==0){
                 break;
-                console.log( "<br>"+"No results found");
+                console.log("No results found");
             }
             page++;
             }catch{
                 page--;
             }
         }
+        console.log(allCodes)
         //patentSearcher(allCodes,needExtra)
     }
     function sleep(ms) {
