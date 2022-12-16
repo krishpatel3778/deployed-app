@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Input</title>
+  </head>
+  <body>
+    <h1>Custom Query Search</h1>
+    <form id="parser">
+     <fieldset>
+      <h3>Choose what to search for:</h3>
+      <input type="radio" id="PEX" name="search_criteria" value="PEX" required>
+      <label for="PEX">Primary Examiner Name</label><br>
+      <input type="radio" id="AGT" name="search_criteria" value="AGT" required>
+      <label for="AGT">Agent</label><br>
+      <input type="radio" id="Agent" name="search_criteria" value="Agent" required>
+      <label for="Agent">Assignee Name</label><br>
+      <input type="radio" id="AGTN" name="search_criteria" value="AGTN" required>
+      <label for="AGTN">Agent Name</label><br>
+      <label for="name">Enter the name for option selected above:</label>
+      <input type="text" id="name" name="value" required><br><br>
+      <label for="abstract">Enter keywords to look for in abstract</label>
+      <input type="text" id="abstract" name="ABST" required><br><br>
+      <label for="start_time">Choose start time:</label><br><br>
+      <input type="date" id="start_time" name="start_time" required><br><br>
+      <label for='end_time'>Choose the end time:</label><br><br>
+      <input type="date" id="end_time" name="end_time" required><br><br>
+      <h3>Choose what to include in results:</h3>
+      <input type="radio" id="uspat" name="result_criteria" value="on,off" required>
+      <label for="uspat">US patents</label><br>
+      <input type="radio" id="usapp" name="result_criteria" value="off,on" required>
+      <label for="usapp">US patents application</label><br>
+      <input type="radio" id="both" name="result_criteria" value="on,on" required>
+      <label for="both">Both of the above</label><br><br>
+      <h3>Do you want to include Office Action in the pdf?</h3>
+      <input type="radio" id="true" name="OA" value="true" required>
+      <label for="true">Yes</label><br>
+      <input type="radio" id="false" name="OA" value="false" requirednode>
+      <label for="false">No</label><br><br>
+
+      <input type="submit" value="Submit">
+     </fieldset>
+    </form>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript">
+      var input=document.querySelectorAll('input[name="search_criteria"]');
+      for(var i=0;i<input.length;i++){
+        input[i].addEventListener("input",function(event){
+          var value=event.srcElement.id;
+          document.querySelector(`label[for="name"]`).innerText='Enter '+document.querySelector(`label[for="${value}"]`).textContent+":";
+        });
+      }
+      document.querySelector("#parser").addEventListener("submit",function(event){
+        console.log(event);
+      })
+    </script>
+  </body>
+</html>
