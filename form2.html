@@ -4,8 +4,7 @@
     <meta charset="utf-8">
     <title>Input</title>
     <script src='https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.js'></script>
-    <script src='https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js'></script>  
-    <script src='https://cdn.jsdelivr.net/npm/parse5@7.1.2/dist/cjs/index.min.js'></script>  
+    <script src='https://cdn.jsdelivr.net/npm/pdf-lib/dist/pdf-lib.min.js'></script>   
   </head>
   <body>
     <h1>Custom Query Search</h1>
@@ -85,17 +84,17 @@
         while(true){
             var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
             console.log(url)
-            var $=await loadPage(url);
+            var $1=await loadPage(url);
             try{
-            console.log("<br>"+$('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').text());
+            console.log("<br>"+$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
             var array=$("tr>td:nth-child(3)>a")
             for(var i=1;i<array.length-2;i++){
                 try{
-                var $1=await loadPage("https://www.freepatentsonline.com"+$(array[i]).attr("href"))
-                var array1=$1(".disp_elm_title,.disp_elm_text");
+                var $2=await loadPage("https://www.freepatentsonline.com"+$1(array[i]).attr("href"))
+                var array1=$2(".disp_elm_title,.disp_elm_text");
                 for(var x=0;x<array1.length;x++){
-                    if($1(array1[x]).text()=="Application Number:"){
-                    allCodes.push($1(array1[x+1]).text());
+                    if($2(array1[x]).text()=="Application Number:"){
+                    allCodes.push($2(array1[x+1]).text());
                     break;
                     }
                 }
@@ -122,7 +121,7 @@
     async function loadPage(url){
         try{
         const a= await axios.get(url);
-        return await parse5.parse(a.data);
+        return await new DomParser().parseFromString(a.data,"text/html");
         }catch(error){
             console.log(error);
             await sleep(15000);
