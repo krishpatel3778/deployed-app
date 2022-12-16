@@ -41,6 +41,7 @@
       <input type="submit" value="Submit">
      </fieldset>
     </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
       var input=document.querySelectorAll('input[name="search_criteria"]');
@@ -51,9 +52,7 @@
         });
       }
       document.querySelector("#parser").addEventListener("submit",function(event){
-        var formEl = document.forms.parser;
-        var formData = new FormData(formEl);
-        console.log(formData);
+        console.log($("#parser").serialize())
       })
     </script>
   </body>
