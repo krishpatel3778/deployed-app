@@ -42,7 +42,9 @@
       <input id="done" type="submit" value="Submit">
      </fieldset>
     </form>
-        <p id="status"></p>
+    <p id="status"></p>
+    <iframe src="" width="100%" height="500px">
+    </iframe>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
@@ -76,7 +78,6 @@
                 }
             }
         }
-        console.log(data);
         await freePatents(`${data[0]}/"${data[1]}" AND ABST/${data[2]} AND ISD/${data[3]}->${data[4]}`,`${data[5].replace("%2C",",")}`,`${data[6]}`)
       });
       async function freePatents(queryString,outputConfig,needExtra){
@@ -127,6 +128,7 @@
             statusString+="Case Number: "+(i+1)+"<br>";
             var number=codeArray[i].replaceAll(/\D/ig,"");
             var res=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v2/application/data?applicationNumberText=${number}`);
+            await sleep(500)
             try{
             var status=res.data.applicationMetaData.applicationStatusDescriptionText;
             }catch{
@@ -134,6 +136,7 @@
             }
             if(status=="Patented Case"){
             var dataCodes=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v1/applications/sdwp/external/metadata/${number}`);
+            await sleep(500)
             try{
                 var allData=dataCodes.data.resultBag[0].documentBag;
             }catch{
@@ -205,8 +208,11 @@
         }
 
         const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-        console.log(pdfDataUri);
-        var data_pdf = pdfDataUri.substring(pdfDataUri.indexOf(',')+1);
+        const iframe = document.createElement("iframe");
+        iframe.width= "100%";
+        iframe.height="500px"
+        iframe.src = pdfDataUri;
+        document.body.appendChild(iframe)
     }
     </script>
   </body>
