@@ -47,7 +47,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
       var statusString="";
-      setInterval(function () {$("p#status").innerHTML= statusString}, 500);
+      setInterval(function () {document.querySelector("p#status").innerHTML= statusString}, 500);
       var input=document.querySelectorAll('input[name="search_criteria"]');
       for(var i=0;i<input.length;i++){
         input[i].addEventListener("input",function(event){
