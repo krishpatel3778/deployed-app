@@ -49,7 +49,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
       var statusString="";
-      setInterval(function () {document.querySelector("p#status").innerHTML= statusString}, 500);
+      var close=setInterval(function () {document.querySelector("p#status").innerHTML= statusString}, 500);
       var input=document.querySelectorAll('input[name="search_criteria"]');
       for(var i=0;i<input.length;i++){
         input[i].addEventListener("input",function(event){
@@ -192,7 +192,8 @@
         }
     }
     async function mergeAllPDFs(urls) {
-        statusString+="Done Running, Generating pdf now to download<br>"
+        statusString+="Done Running, Generating pdf now to download<br>";
+        clearInterval(close)
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = urls.length;
         
