@@ -47,7 +47,7 @@
      </fieldset>
     </form>
     <p id="status"></p>
-    <button id="pdf" onclick=`downloadPdf()` style="
+    <button id="pdf" onclick="downloadPdf()" style="
     display: none;">Click to download the pdf created</button>
     <script type="text/javascript">
       var statusString="";
@@ -214,7 +214,6 @@
         document.getElementById('pdf').style.display="block";
     }
     function downloadPdf(){
-        console.log("here")
         download(pdfBytes, "pdf-lib_form_creation_example.pdf", "application/pdf")
     }
     </script>
