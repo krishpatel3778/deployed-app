@@ -84,14 +84,15 @@
         var allCodes=[];
         while(true){
             var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
-            console.log(url)
             var $1=await loadPage(url);
+            await sleep(300);
             try{
                 console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
                 var array=$1.querySelectorAll("tr>td:nth-child(3)>a")
                 for(var i=1;i<array.length-2;i++){
                     try{
                     var $2=await loadPage("https://www.freepatentsonline.com"+array[i].getAttribute("href"))
+                    await sleep(300);
                     var array1=$2.querySelectorAll(".disp_elm_title,.disp_elm_text");
                     for(var x=0;x<array1.length;x++){
                         if(array1[x].innerText=="Application Number:"){
@@ -114,8 +115,54 @@
                 //page--;
             }
         }
-        console.log(allCodes)
-        //patentSearcher(allCodes,needExtra)
+        patentSearcher(allCodes,needExtra)
+    }
+    async function patentSearcher(codeArray,needExtra){
+        var set=new Set(codeArray);
+        codeArray=Array.from(set);
+        var individualPDFS=[];
+        var pdfNum=0;
+        for(var i=0;i<codeArray.length;i++){
+            console.log("Case Number: "+(i+1));
+            var number=codeArray[i].replaceAll(/\D/ig,"");
+            var res=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v2/application/data?applicationNumberText=${number}`);
+            try{
+            var status=res.data.applicationMetaData.applicationStatusDescriptionText;
+            }catch{
+            var status=""
+            }
+            if(status=="Patented Case"){
+            var dataCodes=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v1/applications/sdwp/external/metadata/${number}`);
+            try{
+                var allData=dataCodes.data.resultBag[0].documentBag;
+            }catch{
+                var allData=[];
+            }
+            var acceptCondition=false;
+            var codesToAccept=["CLM","REM","AME","A."];
+            if(needExtra=="true"){
+                codesToAccept.push("CTFR")
+                codesToAccept.push("CTNF")
+            }
+            for(var x=0;x<allData.length;x++){
+                var code=allData[x].documentCode;
+                if(code=="NOA"){
+                acceptCondition=true;
+                }
+                if(acceptCondition&&codesToAccept.indexOf(code)!=-1){
+                    individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
+                // var pdf=await axios.request({
+                //     method: 'GET',
+                //     url: `https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`,
+                //     responseType: 'arraybuffer',
+                //     responseEncoding: 'binary'
+                // });
+                // individualPDFS.push(pdf.data);
+                }
+            }
+            }
+        }
+        await mergeAllPDFs(individualPDFS);
     }
     function sleep(ms) {
         return new Promise((resolve) => {
@@ -128,7 +175,16 @@
         return await new DOMParser().parseFromString(a.data,"text/html");
         }catch(error){
             console.log(error);
-            await sleep(15000);
+            await sleep(5000);
+        }
+    }
+    async function getPage(url){
+        try{
+        const a= await axios.get(url);
+        return a;
+        }catch(error){
+            //currentResponse.send(url);
+            await sleep(5000);
         }
     }
     async function mergeAllPDFs(urls) {
