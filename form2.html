@@ -91,6 +91,7 @@
             var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
             var $1=await loadPage(url);
             await sleep(300);
+            page++;
             try{
                 statusString+=$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText+"<br>";
                 var array=$1.querySelectorAll("tr>td:nth-child(3)>a")
@@ -112,12 +113,12 @@
                 if(array.length==0){
                     break;
                     statusString="No results found, try reloading and running a new query";
-                }
-                page++;
+                }  
             }catch(error){
                 console.log(error);
+                await sleep(10000)
                 break;
-                //page--;
+                page--;
             }
         }
         await patentSearcher(allCodes,needExtra)
