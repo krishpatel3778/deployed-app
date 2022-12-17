@@ -207,7 +207,7 @@
         }
 
         const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-        document.querySelector('a#downloadPdf').setAttribute("src",pdfDataUri)
+        document.querySelector('a#downloadPdf').setAttribute("href",pdfDataUri)
         document.querySelector('a#downloadPdf').innerText="Download the file here"
     }
     </script>
