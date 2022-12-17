@@ -136,6 +136,7 @@
             var status=res.data.applicationMetaData.applicationStatusDescriptionText;
             }catch{
             var status=""
+            i--;
             }
             if(status=="Patented Case"){
             var dataCodes=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v1/applications/sdwp/external/metadata/${number}`);
@@ -144,6 +145,7 @@
                 var allData=dataCodes.data.resultBag[0].documentBag;
             }catch{
                 var allData=[];
+                i--;
             }
             var acceptCondition=false;
             var codesToAccept=["CLM","REM","AME","A."];
