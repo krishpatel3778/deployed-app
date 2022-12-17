@@ -135,8 +135,8 @@
             try{
             var status=res.data.applicationMetaData.applicationStatusDescriptionText;
             }catch{
-            statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
-            i--;
+            //statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
+            //i--;
             }
             if(status=="Patented Case"){
             var dataCodes=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v1/applications/sdwp/external/metadata/${number}`);
@@ -145,8 +145,8 @@
                 var allData=dataCodes.data.resultBag[0].documentBag;
             }catch{
                 var allData=[];
-                statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
-                i--;
+                //statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
+                //i--;
             }
             var acceptCondition=false;
             var codesToAccept=["CLM","REM","AME","A."];
@@ -194,7 +194,7 @@
         return a;
         }catch(error){
             //currentResponse.send(url);
-            await sleep(10000);
+            await sleep(15000);
         }
     }
     async function mergeAllPDFs(urls) {
