@@ -87,29 +87,30 @@
             console.log(url)
             var $1=await loadPage(url);
             try{
-            console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
-            var array=$.querySelectorAll("tr>td:nth-child(3)>a")
-            for(var i=1;i<array.length-2;i++){
-                try{
-                var $2=await loadPage("https://www.freepatentsonline.com"+$1.querySelector(array[i]).getAttribute("href"))
-                var array1=$2.querySelectorAll(".disp_elm_title,.disp_elm_text");
-                for(var x=0;x<array1.length;x++){
-                    if($2.querySelector(array1[x]).innertext=="Application Number:"){
-                    allCodes.push($2.querySelector(array1[x+1]).innerText);
-                    break;
+                console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
+                var array=$.querySelectorAll("tr>td:nth-child(3)>a")
+                for(var i=1;i<array.length-2;i++){
+                    try{
+                    var $2=await loadPage("https://www.freepatentsonline.com"+$1.querySelector(array[i]).getAttribute("href"))
+                    var array1=$2.querySelectorAll(".disp_elm_title,.disp_elm_text");
+                    for(var x=0;x<array1.length;x++){
+                        if($2.querySelector(array1[x]).innertext=="Application Number:"){
+                        allCodes.push($2.querySelector(array1[x+1]).innerText);
+                        break;
+                        }
+                    }
+                    }catch{
                     }
                 }
-                }catch{
-                }
-            }
 
-            if(array.length==0){
-                break;
-                console.log("No results found");
-            }
-            page++;
-            }catch{
-                page--;
+                if(array.length==0){
+                    break;
+                    console.log("No results found");
+                }
+                page++;
+            }catch(error){
+                console.log(error);
+                //page--;
             }
         }
         console.log(allCodes)
