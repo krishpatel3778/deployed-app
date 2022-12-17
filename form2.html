@@ -86,13 +86,18 @@
       async function freePatents(queryString,outputConfig,needExtra){
         statusString+="Running the Program <br>"
         var page=1;
+        var totalPages=1;
         var allCodes=[];
-        while(true){
+        while(page<(totalPages+1)){
             var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
             var $1=await loadPage(url);
             await sleep(300);
             page++;
             try{
+                if(page==2){
+                    totalPages=Math.ceil(parseInt($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText.match(/\d+/,"g")[2])/50);
+                    console.log(totalPages);
+                }
                 statusString+=$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText+"<br>";
                 var array=$1.querySelectorAll("tr>td:nth-child(3)>a")
                 for(var i=1;i<array.length-2;i++){
@@ -115,9 +120,9 @@
                     statusString="No results found, try reloading and running a new query";
                 }  
             }catch(error){
-                console.log(error);
-                await sleep(10000)
-                break;
+                await sleep(10000);
+                console.log(totalPages);
+                console.log(pages);
                 page--;
             }
         }
