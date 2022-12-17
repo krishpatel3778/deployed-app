@@ -88,7 +88,7 @@
             var $1=await loadPage(url);
             try{
                 console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
-                var array=$.querySelectorAll("tr>td:nth-child(3)>a")
+                var array=$1.querySelectorAll("tr>td:nth-child(3)>a")
                 for(var i=1;i<array.length-2;i++){
                     try{
                     var $2=await loadPage("https://www.freepatentsonline.com"+$1.querySelector(array[i]).getAttribute("href"))
