@@ -43,6 +43,7 @@
      </fieldset>
     </form>
     <p id="status"></p>
+    <a src="" id="downloadPdf"></a>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
@@ -206,8 +207,8 @@
         }
 
         const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
-        document.querySelector('body').innerHTML=document.querySelector('body').innerHTML+`<iframe src="${pdfDataUri}" width="100%" height="500px">
-    </iframe>`
+        document.querySelector('a#downloadPdf').setAttribute("src",pdfDataUri)
+        document.querySelector('a#downloadPdf').innerText="Download the file here"
     }
     </script>
   </body>
