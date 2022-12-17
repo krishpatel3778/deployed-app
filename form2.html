@@ -212,6 +212,7 @@
         }
         pdfBytes=await pdfDoc.save();
         document.getElementById('pdf').style.display="block";
+        download(pdfBytes, "pdf-lib_form_creation_example.pdf", "application/pdf")
     }
     </script>
   </body>
