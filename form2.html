@@ -207,7 +207,8 @@
                 pdfDoc.addPage(donorPage);
             }
         }
-
+        const thisss=await pdfDoc.save();
+        console.log(thisss)
         const pdfDataUri = await pdfDoc.saveAsBase64({ dataUri: true });
         console.log(pdfDataUri);
         document.getElementById('pdf').src = pdfDataUri;
