@@ -96,7 +96,7 @@
             try{
                 if(page==2){
                     console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText.match(/\d+/,"gm"))
-                    totalPages=Math.ceil(parseInt($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText.match(/\d+/,"gm")[2])/50);
+                    totalPages=Math.ceil(parseInt($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText.match(/\d+/g)[2])/50);
                     console.log(totalPages);
                 }
                 statusString+=$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText+"<br>";
