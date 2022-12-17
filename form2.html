@@ -39,15 +39,15 @@
       <label for="true">Yes</label><br>
       <input type="radio" id="false" name="OA" value="false" requirednode>
       <label for="false">No</label><br><br>
-
       <input id="done" type="submit" value="Submit">
      </fieldset>
-
     </form>
+        <p id="status"></p>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript">
       var statusString="";
+      setInterval(function () {$("p#status").innerHTML= statusString}, 500);
       var input=document.querySelectorAll('input[name="search_criteria"]');
       for(var i=0;i<input.length;i++){
         input[i].addEventListener("input",function(event){
@@ -80,6 +80,7 @@
         await freePatents(`${data[0]}/"${data[1]}" AND ABST/${data[2]} AND ISD/${data[3]}->${data[4]}`,`${data[5].replace("%2C",",")}`,`${data[6]}`)
       });
       async function freePatents(queryString,outputConfig,needExtra){
+        statusString+="Running the Program <br>"
         var page=1;
         var allCodes=[];
         while(true){
@@ -87,7 +88,7 @@
             var $1=await loadPage(url);
             await sleep(300);
             try{
-                console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText);
+                statusStrig+=$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText+"<br>";
                 var array=$1.querySelectorAll("tr>td:nth-child(3)>a")
                 for(var i=1;i<array.length-2;i++){
                     try{
@@ -123,7 +124,7 @@
         var individualPDFS=[];
         var pdfNum=0;
         for(var i=0;i<codeArray.length;i++){
-            console.log("Case Number: "+(i+1));
+            statusString+="Case Number: "+(i+1)+"<br>";
             var number=codeArray[i].replaceAll(/\D/ig,"");
             var res=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v2/application/data?applicationNumberText=${number}`);
             try{
@@ -188,7 +189,7 @@
         }
     }
     async function mergeAllPDFs(urls) {
-    
+        statusString+="Done Running, Generating pdf now to download<br>"
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = urls.length;
         
