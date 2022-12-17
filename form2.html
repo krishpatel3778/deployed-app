@@ -88,7 +88,7 @@
             var $1=await loadPage(url);
             await sleep(300);
             try{
-                statusStrig+=$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText+"<br>";
+                statusString+=$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText+"<br>";
                 var array=$1.querySelectorAll("tr>td:nth-child(3)>a")
                 for(var i=1;i<array.length-2;i++){
                     try{
@@ -107,7 +107,7 @@
 
                 if(array.length==0){
                     break;
-                    console.log("No results found");
+                    statusString="No results found, try reloading and running a new query";
                 }
                 page++;
             }catch(error){
