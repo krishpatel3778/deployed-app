@@ -135,7 +135,7 @@
             try{
             var status=res.data.applicationMetaData.applicationStatusDescriptionText;
             }catch{
-            var status=""
+            statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
             i--;
             }
             if(status=="Patented Case"){
@@ -145,6 +145,7 @@
                 var allData=dataCodes.data.resultBag[0].documentBag;
             }catch{
                 var allData=[];
+                statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
                 i--;
             }
             var acceptCondition=false;
@@ -193,7 +194,7 @@
         return a;
         }catch(error){
             //currentResponse.send(url);
-            await sleep(5000);
+            await sleep(10000);
         }
     }
     async function mergeAllPDFs(urls) {
