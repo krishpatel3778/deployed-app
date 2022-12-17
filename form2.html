@@ -47,7 +47,7 @@
      </fieldset>
     </form>
     <p id="status"></p>
-    <button id="pdf" onclick=`downloadPDf()` style="
+    <button id="pdf" onclick=`downloadPdf()` style="
     display: none;">Click to download the pdf created</button>
     <script type="text/javascript">
       var statusString="";
@@ -196,7 +196,6 @@
     }
     async function mergeAllPDFs(urls) {
         statusString+="Done Running, Generating pdf now to download<br>";
-        clearInterval(close)
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = urls.length;
         
@@ -210,6 +209,7 @@
                 pdfDoc.addPage(donorPage);
             }
         }
+        clearInterval(close)
         pdfBytes=await pdfDoc.save();
         document.getElementById('pdf').style.display="block";
     }
