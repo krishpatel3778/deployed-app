@@ -146,17 +146,19 @@
             //i--;
             }
             if(status=="Patented Case"){
-            var dataCodes=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v1/applications/sdwp/external/metadata/${number}`);
-            await sleep(500)
-            try{
-                var allData=dataCodes.data.resultBag[0].documentBag;
-            }catch{
-                var allData=[];
-                //statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
-                //i--;
+                var dataCodes=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v1/applications/sdwp/external/metadata/${number}`);
+                await sleep(500)
+                try{
+                    var allData=dataCodes.data.resultBag[0].documentBag;
+                }catch{
+                    var allData=[];
+                    //statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
+                    //i--;
+                }
             }
             var acceptCondition=false;
-            var codesToAccept=["CLM","REM","AME","A."];
+            var codesToAccept=["CLM","REM","A..."];
+            var casePdf=[];
             if(needExtra=="true"){
                 codesToAccept.push("CTFR")
                 codesToAccept.push("CTNF")
@@ -167,16 +169,21 @@
                 acceptCondition=true;
                 }
                 if(acceptCondition&&codesToAccept.indexOf(code)!=-1){
-                    individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
-                // var pdf=await axios.request({
-                //     method: 'GET',
-                //     url: `https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`,
-                //     responseType: 'arraybuffer',
-                //     responseEncoding: 'binary'
-                // });
-                // individualPDFS.push(pdf.data);
+                    if(code=="CTFR"||code=="CTNF"){
+                        casePdf.splice(0,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                    }else if(code=="A..."){
+                        casePdf.splice(1,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                    }else if(code=="CLM"){
+                        casePdf.splice(2,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                    }else{
+                        casePdf.splice(3,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                    }
                 }
-            }
+                if(casePdf.length>=4){
+                    individualPDFS.push(...casePdf)
+                    casePdf=[]
+                    break;
+                }
             }
         }
         await mergeAllPDFs(individualPDFS);
