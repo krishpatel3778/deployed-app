@@ -170,23 +170,25 @@
                 }
                 if(acceptCondition&&codesToAccept.indexOf(code)!=-1){
                     if(code=="CTFR"||code=="CTNF"){
-                        casePdf.splice(0,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                        casePdf.splice(0,0,"CTFR: "+individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
                     }else if(code=="A..."){
-                        casePdf.splice(1,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                        casePdf.splice(1,0,"A...:"+individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
                     }else if(code=="CLM"){
-                        casePdf.splice(2,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                        casePdf.splice(2,0,"CLM:"+individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
                     }else{
-                        casePdf.splice(3,0,individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
+                        casePdf.splice(3,0,"REM:"+individualPDFS.push(`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`));
                     }
                 }
                 if(casePdf.length>=4){
+                    console.log(casePdf)
                     individualPDFS.push(...casePdf)
                     casePdf=[]
                     break;
                 }
             }
         }
-        await mergeAllPDFs(individualPDFS);
+        console.log(individualPDFS)
+        //await mergeAllPDFs(individualPDFS);
     }
     function sleep(ms) {
         return new Promise((resolve) => {
