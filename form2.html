@@ -170,13 +170,13 @@
                 }
                 if(acceptCondition&&codesToAccept.indexOf(code)!=-1){
                     if(code=="CTFR"||code=="CTNF"){
-                        casePdf.splice(0,0,"CTFR: "+`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
+                        casePdf.splice(0,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
                     }else if(code=="A..."){
-                        casePdf.splice(1,0,"A...:"+`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
+                        casePdf.splice(1,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
                     }else if(code=="CLM"){
-                        casePdf.splice(2,0,"CLM:"+`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
+                        casePdf.splice(2,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
                     }else{
-                        casePdf.splice(3,0,"REM:"+`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
+                        casePdf.splice(3,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
                     }
                 }
                 if(casePdf.length>=4){
