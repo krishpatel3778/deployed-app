@@ -138,10 +138,12 @@
             statusString+="Case Number: "+(i+1)+"<br>";
             var number=codeArray[i].replaceAll(/\D/ig,"");
             var res=await getPage(`https://patentcenter.uspto.gov/retrieval/public/v2/application/data?applicationNumberText=${number}`);
-            await sleep(500)
+            await sleep(500);
+            var status=""
             try{
-            var status=res.data.applicationMetaData.applicationStatusDescriptionText;
+                status=res.data.applicationMetaData.applicationStatusDescriptionText;
             }catch{
+                status=""
             //statusString=statusString.replaceAll(`Case Number: $(i+1)<br>`,"");
             //i--;
             }
