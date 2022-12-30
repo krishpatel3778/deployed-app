@@ -41,7 +41,7 @@
       <h3>Do you want to include Office Action in the pdf?</h3>
       <input type="radio" id="true" name="OA" value="true" required>
       <label for="true">Yes</label><br>
-      <input type="radio" id="false" name="OA" value="false" requirednode>
+      <input type="radio" id="false" name="OA" value="false" required>
       <label for="false">No</label><br><br>
       <input id="done" type="submit" value="Submit">
      </fieldset>
@@ -167,6 +167,7 @@
                 codesToAccept.push("CTFR")
                 codesToAccept.push("CTNF")
             }
+            console.log(codesToAccept)
             for(var x=0;x<allData.length;x++){
                 var code=allData[x].documentCode;
                 if(code=="NOA"){
@@ -174,6 +175,7 @@
                 }
                 if(acceptCondition&&codesToAccept.indexOf(code)!=-1){
                     if(code=="CTFR"||code=="CTNF"){
+                        console.log(code)
                         casePdf.splice(0,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
                     }else if(code=="A..."){
                         casePdf.splice(1,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
