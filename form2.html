@@ -89,7 +89,7 @@
         var totalPages=1;
         var allCodes=[];
         while(page<(totalPages+1)){
-            var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${encodeURI(queryString)}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
+            var url=`https://www.freepatentsonline.com/result.html?p=${page}&srch=xprtsrch&query_txt=${queryString}&uspat=${outputConfig.split(",")[0]}&usapp=${outputConfig.split(",")[1]}&date_range=all&stemming=on&sort=relevance&search=Search`;
             var $1=await loadPage(url);
             await sleep(300);
             page++;
