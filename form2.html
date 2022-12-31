@@ -81,7 +81,7 @@
                 }
             }
         }
-        await freePatents(`${data[0]}/"${data[1]}" AND ABST/${data[2]} AND ISD/${data[3]}->${data[4]}`,`${data[5].replace("%2C",",")}`,`${data[6]}`)
+        await freePatents(`${data[0]}/${data[1]} AND ABST/${data[2]} AND ISD/${data[3]}->${data[4]}`,`${data[5].replace("%2C",",")}`,`${data[6]}`)
       });
       async function freePatents(queryString,outputConfig,needExtra){
         statusString+="Running the Program <br>"
