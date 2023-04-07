@@ -221,15 +221,27 @@
         statusString+="Done Running, Generating pdf now to download<br>";
         const pdfDoc = await PDFLib.PDFDocument.create();
         const numDocs = urls.length;
-        
+        var errorCount=0
         for(var i = 0; i < numDocs; i++) {
-            const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
-            const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
-            const docLength = donorPdfDoc.getPageCount();
-            for(var k = 0; k < docLength; k++) {
-                const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
-                //console.log("Doc " + i+ ", page " + k);
-                pdfDoc.addPage(donorPage);
+            try{
+                const donorPdfBytes = await fetch(urls[i]).then(res => res.arrayBuffer());
+                const donorPdfDoc = await PDFLib.PDFDocument.load(donorPdfBytes);
+                const docLength = donorPdfDoc.getPageCount();
+                for(var k = 0; k < docLength; k++) {
+                    const [donorPage] = await pdfDoc.copyPages(donorPdfDoc, [k]);
+                    //console.log("Doc " + i+ ", page " + k);
+                    pdfDoc.addPage(donorPage);
+                }
+            }
+            catch{
+                errorCount++;
+                if(errorCount==2){
+                    errorCount=0;
+                }else{
+                    console.log("Trying one more time after 10 seconds")
+                    await sleep(10000);
+                    i--;
+                }
             }
         }
         clearInterval(close)
