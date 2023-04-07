@@ -95,9 +95,9 @@
             page++;
             try{
                 if(page==2){
-                    console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText.match(/\d+/,"gm"))
+                    //console.log($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText.match(/\d+/,"gm"))
                     totalPages=Math.ceil(parseInt($1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText.match(/\d+/g)[2])/50);
-                    console.log(totalPages);
+                    //console.log(totalPages);
                 }
                 statusString+=$1.querySelector('#results > div.well.well-small > table > tbody > tr > td:nth-child(1)').innerText+"<br>";
                 var array=$1.querySelectorAll("tr>td:nth-child(3)>a")
@@ -122,8 +122,8 @@
                 }  
             }catch(error){
                 await sleep(10000);
-                console.log(totalPages);
-                console.log(pages);
+                //console.log(totalPages);
+                //console.log(pages);
                 page--;
             }
         }
@@ -167,7 +167,7 @@
                 codesToAccept.push("CTFR")
                 codesToAccept.push("CTNF")
             }
-            console.log(codesToAccept)
+            //console.log(codesToAccept)
             for(var x=0;x<allData.length;x++){
                 var code=allData[x].documentCode;
                 if(code=="NOA"){
@@ -175,7 +175,7 @@
                 }
                 if(acceptCondition&&codesToAccept.indexOf(code)!=-1){
                     if(code=="CTFR"||code=="CTNF"){
-                        console.log(code)
+                        //console.log(code)
                         casePdf.splice(0,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
                     }else if(code=="A..."){
                         casePdf.splice(1,0,`https://patentcenter.uspto.gov/retrieval/public/v2/applications/${number}/documents/${allData[x].documentIdentifier}?type=pdf`);
@@ -186,7 +186,7 @@
                     }
                 }
                 if(casePdf.length>=4){
-                    console.log(casePdf)
+                    //console.log(casePdf)
                     individualPDFS.push(...casePdf)
                     casePdf=[]
                     break;
